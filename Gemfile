@@ -24,6 +24,7 @@ gem "omniauth-rails_csrf_protection"
 gem "omniauth-apple"
 gem "omniauth-google-oauth2"
 gem "omniauth-microsoft-office365"
+gem "omniauth-identity2"
 
 gem "sidekiq"
 gem "daemons"

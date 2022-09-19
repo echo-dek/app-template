@@ -227,6 +227,9 @@ GEM
       oauth2 (~> 2.0.6)
       omniauth (~> 2.0)
       omniauth-oauth2 (~> 1.8.0)
+    omniauth-identity2 (2.0)
+      bcrypt
+      omniauth
     omniauth-microsoft-office365 (0.0.8)
       omniauth
       omniauth-oauth2
@@ -400,6 +403,7 @@ DEPENDENCIES
   omniauth
   omniauth-apple
   omniauth-google-oauth2
+  omniauth-identity2
   omniauth-microsoft-office365
   omniauth-rails_csrf_protection
   parallel_tests
