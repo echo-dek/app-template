@@ -21,7 +21,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: "bundle exec sidekiq -q critical -q high -q default -q low_priority -q mailers -"
+    command: "bundle exec sidekiq -q critical -q high -q default -q low_priority -q mailers"
     volumes:
       - .:/usr/src/app
       - storage:/usr/src/app/storage
