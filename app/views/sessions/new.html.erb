@@ -1,0 +1,19 @@
+<%= tag.div class: "container p-4" do %>
+  <%= card cls: "m-4" do %>
+    <%= form_tag "/auth/google", method: :post, class: "mb-4 w-75 m-auto", data: { turbo: false } do %>
+      <%= submit_tag t("login.sign_in_with_google"), class: "btn btn-outline-primary w-100" %>
+    <% end %>
+    <%= form_tag "/auth/microsoft_office365", method: :post, class: "mb-4 w-75 m-auto", data: { turbo: false } do %>
+      <%= submit_tag t("login.sign_in_with_office_365"), class: "btn btn-outline-primary w-100" %>
+    <% end %>
+    <%= form_tag "/auth/apple", method: :post, class: "mb-4 w-75 m-auto", data: { turbo: false } do %>
+      <%= submit_tag t("login.sign_in_with_apple"), class: "btn btn-outline-primary w-100" %>
+    <% end %>
+    <%= form_tag "/auth/identity", method: :post, class: "mb-4 w-75 m-auto", data: { turbo: false } do %>
+      <%= submit_tag t("login.sign_in_email"), class: "btn btn-outline-primary w-100" %>
+    <% end %>
+    <%= form_tag "/auth/developer", method: :post, class: "mb-4 w-75 m-auto", data: { turbo: false } do %>
+      <%= submit_tag t("login.developer_sign_in"), class: "btn btn-outline-primary w-100" %>
+    <% end unless Rails.env.production? %>
+  <% end %>
+<% end %>

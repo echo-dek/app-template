@@ -1,0 +1,8 @@
+---
+en:
+  login:
+    developer_sign_in: Developer login
+    sign_in_with_apple: Sign in with Apple
+    sign_in_with_email: Sign in with email
+    sign_in_with_google: Sign in with Google
+    sign_in_with_office_365: Sign in with Office 365
