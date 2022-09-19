@@ -1,0 +1,19 @@
+{
+  "name": "EchoDek App",
+  "description": "EchoDek App",
+  "keywords": [
+    "echodek"
+  ],
+  "scripts": {
+    "dokku": {
+      "predeploy": "bundle exec rake assets:precompile",
+      "postdeploy": "bundle exec rake db:migrate"
+    }
+  },
+  "cron": [
+    {
+      "command": "bin/rails something",
+      "schedule": "0 2 * * *"
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+mysql -uroot -proot -h mysql_db DATABASE_NAME < db/db.sql 

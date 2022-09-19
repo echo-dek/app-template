@@ -1,0 +1,4 @@
+#!/bin/sh
+
+docker compose run app bin/rails parallel:spec
+cat spec/examples.txt | grep failed

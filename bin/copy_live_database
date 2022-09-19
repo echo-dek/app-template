@@ -1,0 +1,17 @@
+#!/bin/sh
+
+if test $# -gt 0;
+then
+  dbfile=$1
+else
+  dbfile=~/db/APP_NAME.$(date +\%d\%m\%Y).sql.gz
+fi
+
+rm -f db/*.sql.gz
+rm -f db/*.sql
+cp $dbfile db/db.sql.gz
+gunzip db/db.sql.gz
+docker compose run app bin/load_db
+docker compose run app bin/rails development:prepare
+rm -f db/db.sql.gz
+rm -f db/db.sql
