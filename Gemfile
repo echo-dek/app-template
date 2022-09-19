@@ -18,6 +18,13 @@ gem "sassc-rails"
 gem "image_processing", "~> 1.2"
 gem "mini_racer"
 gem "bootstrap", "~> 5.1.3"
+
+gem "omniauth"
+gem "omniauth-rails_csrf_protection"
+gem "omniauth-apple"
+gem "omniauth-google-oauth2"
+gem "omniauth-microsoft-office365"
+
 gem "sidekiq"
 gem "daemons"
 gem "rujitsu"
