@@ -1,0 +1,44 @@
+name: run_tests
+# Expects secrets: SLACK_WEBHOOK_URL
+on:
+  push:
+  workflow_dispatch:
+env:
+  HOSTNAME: app.input.host
+jobs:
+  run_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Git branch name
+        id: git-branch-name
+        uses: EthanSK/git-branch-name-action@v1
+      - name: Pull images
+        run: docker compose pull
+      - name: Build containers
+        run: docker compose up -d
+      - name: Build database
+        run: docker compose exec app bin/rails db:create
+      - name: Migrate database
+        run: docker compose exec app bin/rails db:migrate
+      - name: Prepare assets
+        run: docker compose exec app bin/rails assets:precompile
+      - name: Build test databases
+        run: docker compose exec app bin/rails parallel:create
+      - name: Run specs
+        id: run_specs
+        run: docker compose exec app bin/rails parallel:spec
+      - name: Post to Slack
+        uses: edge/simple-slack-notify@master
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          channel: "#development"
+          status: ${{ job.status }}
+          success_text: Tests ran successfully
+          failure_text: Tests failed
+          cancelled_text: Tests were cancelled
+          fields: |
+            [{ "title": "Branch", "value": "${env.GITHUB_REF_NAME}", "short": true },
+            { "title": "Action URL", "value": "${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}"}]

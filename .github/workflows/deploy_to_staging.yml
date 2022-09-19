@@ -1,0 +1,64 @@
+name: deploy_to_staging
+# Expects secrets: STAGING_SSH_KEY STAGING_SERVER_ADDRESS SLACK_WEBHOOK_URL
+on:
+  workflow_dispatch:
+jobs:
+  deploy_to_staging:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.4.0
+        with:
+          access_token: ${{ github.token }}
+
+      - name: Show maintenance page
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: /usr/bin/dokku maintenance:enable app
+          host: stagingapp.input.host
+          username: app
+          privateKey: ${{ secrets.STAGING_SSH_KEY }}
+
+      - name: Pull latest code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Deploy to staging
+        uses: dokku/github-action@master
+        with:
+          git_remote_url: "ssh://dokku@${{ secrets.STAGING_SERVER_ADDRESS }}:22/app"
+          ssh_private_key: ${{ secrets.STAGING_SSH_KEY }}
+          branch: staging
+          git_push_flags: --force
+
+      - name: Build standard database
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: /usr/bin/dokku run app bin/build_staging
+          host: ${{ secrets.STAGING_SERVER_ADDRESS }}
+          username: app
+          privateKey: ${{ secrets.STAGING_SSH_KEY }}
+
+      - name: Hide the maintenance page
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: /usr/bin/dokku maintenance:disable app
+          host: stagingapp.input.host
+          username: app
+          privateKey: ${{ secrets.STAGING_SSH_KEY }}
+
+      - name: Post to Slack
+        uses: edge/simple-slack-notify@master
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          channel: "#development"
+          status: ${{ job.status }}
+          success_text: New version on staging
+          failure_text: Staging server did not update
+          cancelled_text: Staging server update cancelled
+          fields: |
+            [{ "title": "Version", "value": "${env.GITHUB_REF_NAME}", "short": true },
+             { "title": "Staging server", "value": "https://${{ secrets.STAGING_SERVER_ADDRESS }}"}]
