@@ -1,5 +1,18 @@
 ---
 en:
+  activerecord:
+    attributes:
+      omniauth_identity:
+        email: Email
+        password_digest: Encrypted password
+      omniauth_provider:
+        credentials: Credentials
+        info: Other information
+        provider: Authentication provider
+        uid: User ID
+    models:
+      omniauth_identity: Identity
+      omniauth_provider: Authentication provider
   login:
     developer_sign_in: Developer login
     sign_in_with_apple: Sign in with Apple

@@ -10,7 +10,7 @@
       <%= submit_tag t("login.sign_in_with_apple"), class: "btn btn-outline-primary w-100" %>
     <% end %>
     <%= form_tag "/auth/identity", method: :post, class: "mb-4 w-75 m-auto", data: { turbo: false } do %>
-      <%= submit_tag t("login.sign_in_email"), class: "btn btn-outline-primary w-100" %>
+      <%= submit_tag t("login.sign_in_with_email"), class: "btn btn-outline-primary w-100" %>
     <% end %>
     <%= form_tag "/auth/developer", method: :post, class: "mb-4 w-75 m-auto", data: { turbo: false } do %>
       <%= submit_tag t("login.developer_sign_in"), class: "btn btn-outline-primary w-100" %>
