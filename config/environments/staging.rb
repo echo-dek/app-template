@@ -2,7 +2,7 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   config.action_mailer.smtp_settings = { address: ENV["EMAIL_HOST"], port: ENV["EMAIL_PORT"], domain: ENV["EMAIL_DOMAIN"], user_name: ENV["EMAIL_USER"], password: ENV["EMAIL_PASSWORD"], authentication: "plain", enable_starttls_auto: true }
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :test
   config.action_mailer.default_url_options = { host: ENV["HOSTNAME"] }
   config.active_job.queue_adapter = :sidekiq
   config.cache_classes = true
