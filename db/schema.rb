@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_19_122153) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_19_135126) do
   create_table "action_text_rich_texts", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", size: :long
@@ -47,6 +47,30 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_19_122153) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "omniauth_identities", charset: "utf8mb4", force: :cascade do |t|
+    t.string "authenticatable_type"
+    t.bigint "authenticatable_id"
+    t.string "email", limit: 128, default: "", null: false
+    t.string "password_digest", limit: 128
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["authenticatable_type", "authenticatable_id"], name: "index_omniauth_identities_on_authenticatable"
+    t.index ["email"], name: "oi_em"
+  end
+
+  create_table "omniauth_providers", charset: "utf8mb4", force: :cascade do |t|
+    t.string "authenticatable_type"
+    t.bigint "authenticatable_id"
+    t.string "provider", limit: 128, default: "", null: false
+    t.string "uid", limit: 128, default: "", null: false
+    t.text "info"
+    t.text "credentials"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["authenticatable_type", "authenticatable_id"], name: "index_omniauth_providers_on_authenticatable"
+    t.index ["provider", "uid"], name: "op_prvuid"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

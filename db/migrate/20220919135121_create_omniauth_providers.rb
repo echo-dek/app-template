@@ -8,6 +8,6 @@ class CreateOmniauthProviders < ActiveRecord::Migration[7.0]
       t.text :credentials
       t.timestamps
     end
-    t.add_index :omniauth_providers, [:provider, :uid], name: "op_prvuid"
+    add_index :omniauth_providers, [:provider, :uid], name: "op_prvuid"
   end
 end
